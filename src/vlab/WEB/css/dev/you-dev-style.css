@@ -3,11 +3,21 @@
     height: 800px;
 }
 
-.task-container, .results-container {
+.coeff-container {
+    margin-right: 30px;
+}
+
+.task-container {
+    display: flex;
+    align-items: center;
+}
+
+.results-container {
     display: flex;
 }
 
 .matrix {
+    margin-right: 30px;
     border-left: 1px solid black;
     border-right: 1px solid black;
 }
@@ -17,7 +27,7 @@
     width: 30px;
 }
 
-.userVals input {
-    width: inherit;
+input {
+    width: 30px;
     text-align: center;
 }

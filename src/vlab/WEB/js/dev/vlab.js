@@ -31,10 +31,23 @@ var Vlab = {
         this.drawResultsCoefficients(this.resultsRows, this.resultsCols, this.resultsContainer);
         this.drawResultMatrix(this.resultsRows, this.resultsCols, 'C', this.resultsContainer);
 
-        $(".matrixValue").change(function () {
-            var value = $(this).find('input').val();
-            var className = $(this).attr('class').replace('matrixValue', '').replace(' ', '');
-            $(`.${className}`).find('input').val(value);
+        $(".term").change(function () {
+            var classes = $(this).attr('class');
+            var className = classes.substring(classes.indexOf("sum"), classes.indexOf("sum") + 5);
+            var elem1 = $(`.${className}.elem1`).val();
+            var elem2 = $(`.${className}.elem2`).val();
+            var elem3 = $(`.${className}.elem3`).val();
+            var elem4 = $(`.${className}.elem4`).val();
+
+            if (elem1 && elem2 && elem3 && elem4) {
+                var value = elem1 * elem2 + elem3 * elem4;
+                $(`span.${className}`).text(value);
+                $(`.${className}`).find('input').val(value);
+            }
+            else {
+                $(`span.${className}`).text('');
+                $(`.${className}`).find('input').val('');
+            }
         });
     },
     getData: function () {
@@ -43,7 +56,8 @@ var Vlab = {
     drawResultsCoefficients: function (rows, cols, container) {
         for (var i = 0; i < rows; i++) {
             for (var j = 0; j < cols; j++) {
-                var string = $(`<p>c<sub>${i + 1}${j + 1}</sub> = <input/></p>`).addClass(`matrixValue coeff${i}${j}`);
+                var sum = `<input class="term sum${i}${j} elem1"> × <input class="term sum${i}${j} elem2"> + <input class="term sum${i}${j} elem3"> × <input class="term sum${i}${j} elem4">`;
+                var string = $(`<p>c<sub>${i + 1}${j + 1}</sub> = ${sum} = <span class="sum${i}${j}"></span></p>`).addClass(`matrixValue coeff${i}${j}`);
                 this.coefficientsContainer.append(string);
             }
         }
@@ -72,7 +86,7 @@ var Vlab = {
             var row = $('<tr />');
             table.append(row);
             for (var j = 0; j < cols; j++) {
-                var cell = $('<td><input readonly></td>').addClass(`userVals coeff${i}${j}`);
+                var cell = $('<td><input readonly></td>').addClass(`userVals sum${i}${j}`);
                 row.append(cell);
             }
         }
